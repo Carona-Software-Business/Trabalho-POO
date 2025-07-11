@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ public class MainWindow extends JFrame {
     private JPanel painelSul;
 
     private JLabel labelJogoDaVida;
+    private JLabel labelInteracoes;
     
     private JButton botaoAvancar;
     private JButton botaoAvancarA;
@@ -71,13 +73,21 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 800);
         
-        painelNorte = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        painelNorte.setBorder(new EmptyBorder(30, 10, 10, 10));
+        painelNorte = new JPanel();
+        painelNorte.setLayout(new BoxLayout(painelNorte, BoxLayout.Y_AXIS));
+        painelNorte.setAlignmentX(CENTER_ALIGNMENT);
         add(painelNorte, BorderLayout.NORTH);
         
         labelJogoDaVida = new JLabel("Jogo Da Vida");
         labelJogoDaVida.setFont(new Font("SansSerif", Font.BOLD, 48));
         painelNorte.add(labelJogoDaVida);
+        
+        labelInteracoes = new JLabel("Interação: ");
+        labelInteracoes.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        painelNorte.add(labelInteracoes);
+        
+        labelJogoDaVida.setAlignmentX(CENTER_ALIGNMENT);
+        labelInteracoes.setAlignmentX(CENTER_ALIGNMENT);
         
         painelCentro = new JPanel(new BorderLayout());
         painelCentro.setBorder(new EmptyBorder(10, 10, 10, 10));

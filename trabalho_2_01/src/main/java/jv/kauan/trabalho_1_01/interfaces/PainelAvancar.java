@@ -27,6 +27,7 @@ public class PainelAvancar extends JDialog{
     public PainelAvancar(JFrame pai){
         super(pai, "Avançar Automaticamente", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(500,300);
         setLayout(new GridLayout(3,2));
         
         labelInteracoes = new JLabel("Digite a quantidade de interaçoes: ");
