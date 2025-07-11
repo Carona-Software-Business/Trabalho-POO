@@ -85,6 +85,7 @@ public class MainWindow extends JFrame {
         labelInteracoes = new JLabel("Interação: ");
         labelInteracoes.setFont(new Font("SansSerif", Font.PLAIN, 20));
         painelNorte.add(labelInteracoes);
+        System.out.println(",k,");
         
         labelJogoDaVida.setAlignmentX(CENTER_ALIGNMENT);
         labelInteracoes.setAlignmentX(CENTER_ALIGNMENT);
