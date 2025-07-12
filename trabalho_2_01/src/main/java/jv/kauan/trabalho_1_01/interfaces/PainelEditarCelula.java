@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import jv.kauan.trabalho_1_01.Tabuleiro;
 
 public class PainelEditarCelula extends JDialog{
     private JPanel painelTipoCelula;
@@ -33,7 +34,7 @@ public class PainelEditarCelula extends JDialog{
     private JButton botaoSalvar;
     private JButton botaoCancelar;
     
-    public PainelEditarCelula(JFrame pai){
+    public PainelEditarCelula(JFrame pai, String simbolo, boolean estado, JButton botaoClicado){
         super(pai, "Editar Celula", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -42,8 +43,7 @@ public class PainelEditarCelula extends JDialog{
         painelTipoCelula = new JPanel();
         painelTipoCelula.setBorder(BorderFactory.createTitledBorder("Tipo da celula:"));
         grupoTipoCelula = new ButtonGroup();
-        radioClassica = new JRadioButton("Classica");
-        radioClassica.setSelected(true);
+        radioClassica = new JRadioButton("Classica");        
         radioForte = new JRadioButton("Forte");
         radioTimida = new JRadioButton("Timida");
         radioMatematica = new JRadioButton("Matematica");
@@ -60,7 +60,6 @@ public class PainelEditarCelula extends JDialog{
         painelEstadoCelula.setBorder(BorderFactory.createTitledBorder("Estado da celula:"));
         grupoEstadoCelula = new ButtonGroup();
         radioViva = new JRadioButton("Viva");
-        radioViva.setSelected(true);
         radioMorta = new JRadioButton("Morta");
         grupoEstadoCelula.add(radioViva);
         grupoEstadoCelula.add(radioMorta);
@@ -71,16 +70,53 @@ public class PainelEditarCelula extends JDialog{
         botaoCancelar.setActionCommand("Cancelar");
         botaoSalvar = new JButton("Salvar");
         botaoSalvar.setActionCommand("Salvar");
-   
         
+        switch (simbolo){
+            case "+":
+                radioClassica.setSelected(true);
+                break;
+                
+            case "@":
+                radioForte.setSelected(true);
+                break;
+            
+            case "&":
+                radioTimida.setSelected(true);
+                break;
+                
+            case "#":
+                radioMatematica.setSelected(true);
+        }
+        
+        if(!estado){
+            radioMorta.setSelected(true);
+        }else{
+            radioViva.setSelected(true);
+        }
+            
         botaoCancelar.addActionListener(e -> dispose());
 
         botaoSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String novoSimbolo = "";
+
+                if (radioClassica.isSelected()) {
+                    novoSimbolo = "+";
+                } else if (radioForte.isSelected()) {
+                    novoSimbolo = "@";
+                } else if (radioTimida.isSelected()) {
+                    novoSimbolo = "&";
+                } else if (radioMatematica.isSelected()) {
+                    novoSimbolo = "#";
+                }
+
+                botaoClicado.setText(novoSimbolo);
+
                 dispose();
             }
         });
+
         
         painelCentral = new JPanel(new GridLayout(2, 1));
         painelCentral.add(painelTipoCelula);
