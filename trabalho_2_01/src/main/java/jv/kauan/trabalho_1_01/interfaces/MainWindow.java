@@ -31,6 +31,7 @@ import jv.kauan.trabalho_1_01.Tabuleiro;
 
 public class MainWindow extends JFrame {
     PainelAvancar painelAvancar;
+    PainelEditar painelEditar;
     
     private JPanel painelNorte;
     private JPanel painelCentro;
@@ -201,7 +202,7 @@ public class MainWindow extends JFrame {
                         
                     case "Editar":
                         //Adicionar o metodo para editar
-                        JOptionPane.showMessageDialog(rootPane, "Editando...");
+                        painelEditar = new PainelEditar(MainWindow.this);
                         break;
 
                     case "Sair":
