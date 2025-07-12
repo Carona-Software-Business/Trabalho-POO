@@ -37,7 +37,7 @@ public class MainWindow extends JFrame {
     private JPanel painelCentro;
     private JPanel painelSul;
     private JPanel painelContainerTabuleiro;
-    JPanel painelTabuleiro;
+    private JPanel painelTabuleiro;
 
     private JLabel labelJogoDaVida;
     private JLabel labelInteracoes;
@@ -68,6 +68,8 @@ public class MainWindow extends JFrame {
     private File file;
     
     private Tabuleiro tabuleiro;
+    
+    private int interacao;
 
     public MainWindow() {
         super("Jogo da vida");
@@ -75,6 +77,8 @@ public class MainWindow extends JFrame {
         
         fileManager = new JFileChooser();
         fileManager.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        interacao = 0;
+        tabuleiro = new Tabuleiro();
         
         
         setLayout(new BorderLayout());
@@ -90,7 +94,7 @@ public class MainWindow extends JFrame {
         labelJogoDaVida.setFont(new Font("SansSerif", Font.BOLD, 48));
         painelNorte.add(labelJogoDaVida);
         
-        labelInteracoes = new JLabel("Interação: ");
+        labelInteracoes = new JLabel("Interação: " + interacao);
         labelInteracoes.setFont(new Font("SansSerif", Font.PLAIN, 20));
         labelInteracoes.setBorder(new EmptyBorder(50, 0, 20, 0));
         painelNorte.add(labelInteracoes);
@@ -182,16 +186,28 @@ public class MainWindow extends JFrame {
                 switch (e.getActionCommand()) {
                     case "Abrir":
                         abrirArquivo();
-                        criarInterfaceTabuleiro(tabuleiro.getLinhas(), tabuleiro.getColunas());
+                        criarInterfaceTabuleiro();
+                        interacao = 0;
+                        labelInteracoes.setText("Interacao: " + interacao);
                         break;
                         
                     case "Salvar":
-                        salvarArquivo();
+                        if(tabuleiro.tabulerioVazio())
+                            JOptionPane.showMessageDialog(rootPane, 
+                                "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
+                                "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                        else 
+                            salvarArquivo();
                         break;
                         
                     case "Editar":
                         //Adicionar o metodo para editar
-                        painelEditar = new PainelEditar(MainWindow.this, tabuleiro);
+                        if(tabuleiro.tabulerioVazio())
+                            JOptionPane.showMessageDialog(rootPane, 
+                                "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
+                                "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                        else
+                            painelEditar = new PainelEditar(MainWindow.this);
                         break;
 
                     case "Sair":
@@ -262,14 +278,28 @@ public class MainWindow extends JFrame {
         botaoAvancar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(rootPane, "Avançar");
+                //JOptionPane.showMessageDialog(rootPane, "Avançar");
+                if(tabuleiro.tabulerioVazio())
+                    JOptionPane.showMessageDialog(rootPane, 
+                            "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
+                            "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                else {
+                    tabuleiro.avancarInteracao();
+                    criarInterfaceTabuleiro();
+                    labelInteracoes.setText("Interação: " + (++interacao));
+                }
             }
         });
         
         botaoAvancarA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                painelAvancar = new PainelAvancar(MainWindow.this);
+                if(tabuleiro.tabulerioVazio())
+                    JOptionPane.showMessageDialog(rootPane, 
+                            "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
+                            "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                else
+                    painelAvancar = new PainelAvancar(MainWindow.this);
             }
         });
         
@@ -336,20 +366,20 @@ public class MainWindow extends JFrame {
         }
     }
     
-    private void criarInterfaceTabuleiro(int linhas, int colunas) {
+    private void criarInterfaceTabuleiro() {
         painelContainerTabuleiro.remove(painelTabuleiro);
         
         painelTabuleiro = new JPanel();
-        painelTabuleiro.setLayout(new GridLayout(linhas, colunas));
+        painelTabuleiro.setLayout(new GridLayout(tabuleiro.getLinhas(), tabuleiro.getColunas()));
         painelTabuleiro.setMinimumSize(new Dimension(600, 400));
         painelTabuleiro.setPreferredSize(new Dimension(600, 400));
         painelTabuleiro.setMaximumSize(new Dimension(600, 400));
         //painelTabuleiro.setBackground(Color.BLUE);
         painelContainerTabuleiro.add(painelTabuleiro);
         
-        labelTabuleiro = new JLabel[linhas][colunas];
-        for(int i = 0; i < linhas; i++) {
-            for(int j = 0; j < colunas; j++) {
+        labelTabuleiro = new JLabel[tabuleiro.getLinhas()][tabuleiro.getColunas()];
+        for(int i = 0; i < tabuleiro.getLinhas(); i++) {
+            for(int j = 0; j < tabuleiro.getColunas(); j++) {
                 labelTabuleiro[i][j] = new JLabel(tabuleiro.toString(i, j));
                 labelTabuleiro[i][j].setFont(new Font("Arial", Font.BOLD, 24));
                 painelTabuleiro.add(labelTabuleiro[i][j]);
