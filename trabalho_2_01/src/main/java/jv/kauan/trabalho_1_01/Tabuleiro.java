@@ -65,6 +65,17 @@ public class Tabuleiro {
         interacao = 0;
     }
     
+    // Getters Settes
+
+    public int getLinhas() {
+        return linhas;
+    }
+
+    public int getColunas() {
+        return colunas;
+    }
+    
+    
     // Construção do tabuleiro
     private void definirTiposCelulas(String[][] tipos) {
         for(int i = 0; i < linhas; i++) {
@@ -151,6 +162,10 @@ public class Tabuleiro {
             tabuleiroString += "\n";
         }
         return tabuleiroString;
+    }
+    
+    public String toString(int linha, int coluna) {
+        return tabuleiroAtual[linha][coluna].toString();
     }
     
     public void printarTabuleiro() {

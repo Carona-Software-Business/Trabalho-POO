@@ -1,9 +1,11 @@
 package jv.kauan.trabalho_1_01.interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -32,6 +35,8 @@ public class MainWindow extends JFrame {
     private JPanel painelNorte;
     private JPanel painelCentro;
     private JPanel painelSul;
+    private JPanel painelContainerTabuleiro;
+    private JPanel painelTabuleiro;
 
     private JLabel labelJogoDaVida;
     private JLabel labelInteracoes;
@@ -54,7 +59,9 @@ public class MainWindow extends JFrame {
     private JMenuItem menuItemFormato;
     private JMenuItem menuItemSobre;
     
-    private JTextArea textTabuleiro;
+    private JLabel[][] labelTabuleiro;
+    
+    //private JTextArea textTabuleiro;
     
     private JFileChooser fileManager;
     private File file;
@@ -84,8 +91,8 @@ public class MainWindow extends JFrame {
         
         labelInteracoes = new JLabel("Interação: ");
         labelInteracoes.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        labelInteracoes.setBorder(new EmptyBorder(50, 0, 20, 0));
         painelNorte.add(labelInteracoes);
-        System.out.println(",k,");
         
         labelJogoDaVida.setAlignmentX(CENTER_ALIGNMENT);
         labelInteracoes.setAlignmentX(CENTER_ALIGNMENT);
@@ -94,12 +101,25 @@ public class MainWindow extends JFrame {
         painelCentro.setBorder(new EmptyBorder(10, 10, 10, 10));
         add(painelCentro, BorderLayout.CENTER);
         
+        /*
         textTabuleiro = new JTextArea();
         textTabuleiro.setFont(new Font("Monospaced", Font.PLAIN, 14));
         JScrollPane scrollPane = new JScrollPane(textTabuleiro);
         painelCentro.add(scrollPane, BorderLayout.CENTER);
+        */
+        painelContainerTabuleiro = new JPanel();
+        painelContainerTabuleiro.setLayout(new FlowLayout(FlowLayout.CENTER));
+        //painelContainerTabuleiro.setBackground(Color.red);
+        painelCentro.add(painelContainerTabuleiro, BorderLayout.CENTER);
         
-        painelSul = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 10));   
+        painelTabuleiro = new JPanel();
+        painelTabuleiro.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        painelTabuleiro.setMinimumSize(new Dimension(600, 400));
+        painelTabuleiro.setPreferredSize(new Dimension(600, 400));
+        painelTabuleiro.setMaximumSize(new Dimension(600, 400));
+        painelContainerTabuleiro.add(painelTabuleiro);
+        
+        painelSul = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 10));  
         
         botaoAvancar = new JButton("Avançar");
         botaoAvancar.setActionCommand("Avançar");
@@ -161,6 +181,7 @@ public class MainWindow extends JFrame {
                 switch (e.getActionCommand()) {
                     case "Abrir":
                         abrirArquivo();
+                        criarInterfaceTabuleiro(tabuleiro.getLinhas(), tabuleiro.getColunas());
                         break;
                         
                     case "Salvar":
@@ -270,7 +291,6 @@ public class MainWindow extends JFrame {
             
             try {
                 tabuleiro = new Tabuleiro(file);
-                // Mostrar Tabuleiro
                 
             } catch(FileNotFoundException ex) {
                 System.out.println(ex);
@@ -313,5 +333,29 @@ public class MainWindow extends JFrame {
                         "Erro ao salvar o tabuleiro!", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+    
+    private void criarInterfaceTabuleiro(int linhas, int colunas) {
+        painelContainerTabuleiro.remove(painelTabuleiro);
+        
+        painelTabuleiro = new JPanel();
+        painelTabuleiro.setLayout(new GridLayout(linhas, colunas));
+        painelTabuleiro.setMinimumSize(new Dimension(600, 400));
+        painelTabuleiro.setPreferredSize(new Dimension(600, 400));
+        painelTabuleiro.setMaximumSize(new Dimension(600, 400));
+        //painelTabuleiro.setBackground(Color.BLUE);
+        painelContainerTabuleiro.add(painelTabuleiro);
+        
+        labelTabuleiro = new JLabel[linhas][colunas];
+        for(int i = 0; i < linhas; i++) {
+            for(int j = 0; j < colunas; j++) {
+                labelTabuleiro[i][j] = new JLabel(tabuleiro.toString(i, j));
+                labelTabuleiro[i][j].setFont(new Font("Arial", Font.BOLD, 24));
+                painelTabuleiro.add(labelTabuleiro[i][j]);
+            }
+        }
+        
+        painelContainerTabuleiro.revalidate();
+        painelContainerTabuleiro.repaint();
     }
 }
