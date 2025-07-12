@@ -210,18 +210,20 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
                     case "Abrir":
-                        abrirArquivo();
-                        criarInterfaceTabuleiro();
-                        interacao = 0;
-                        labelInteracoes.setText("Interacao: " + interacao);
+                        if (abrirArquivo()) {
+                            criarInterfaceTabuleiro();
+                            interacao = 0;
+                            labelInteracoes.setText("Interacao: " + interacao);
+                        }
+
                         break;
-                        
+
                     case "Salvar":
-                        if(tabuleiro.tabulerioVazio())
-                            JOptionPane.showMessageDialog(rootPane, 
-                                "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
-                                "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
-                        else 
+                        if (tabuleiro.tabulerioVazio())
+                            JOptionPane.showMessageDialog(rootPane,
+                                    "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!",
+                                    "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                        else
                             salvarArquivo();
                         break;
                         
@@ -412,6 +414,7 @@ public class MainWindow extends JFrame {
                     if(comecar) {
                         //System.out.println("Rep Max: " + repeticaoMax);
                         comecarSimulacao();
+                        rep = 0;
                         pausado = false;
                         botaoPausar.setText("Pausar");
                         botaoPausar.setEnabled(true);
@@ -468,33 +471,40 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
     
-    private void abrirArquivo(){
+    private boolean abrirArquivo() {
         int res = fileManager.showOpenDialog(this);
-        
-        if(res == JFileChooser.APPROVE_OPTION) {
+
+        if (res == JFileChooser.APPROVE_OPTION) {
             file = fileManager.getSelectedFile();
-            
+
             try {
                 tabuleiro = new Tabuleiro(file);
-                
-            } catch(FileNotFoundException ex) {
+                return true;
+
+            } catch (FileNotFoundException ex) {
                 System.out.println(ex);
-                JOptionPane.showMessageDialog(this, 
-                    "Este arquivo não existe.", 
-                    "Arquivo não existente.", JOptionPane.ERROR_MESSAGE);
-            } catch(NoSuchElementException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Este arquivo não existe.",
+                        "Arquivo não existente.", JOptionPane.ERROR_MESSAGE);
+                return false;
+
+            } catch (NoSuchElementException ex) {
                 System.out.println(ex);
-                JOptionPane.showMessageDialog(this, 
-                    "Este arquivo é inválido!"
-                            + "\nVá na sessão ajuda para ver sobre o formato do arquivo.", 
-                    "Arquivo inválido.", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Este arquivo é inválido!"
+                        + "\nVá na sessão ajuda para ver sobre o formato do arquivo.",
+                        "Arquivo inválido.", JOptionPane.ERROR_MESSAGE);
+                return false;
+
             }
-            
-        } else if(res == JFileChooser.ERROR_OPTION) {
-            JOptionPane.showMessageDialog(this, 
-                    "Escolha um arquivo!", 
+
+        } else if (res == JFileChooser.ERROR_OPTION) {
+            JOptionPane.showMessageDialog(this,
+                    "Escolha um arquivo!",
                     "Arquivo inválido.", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
+        return false;
     }
     
     private void salvarArquivo() {
