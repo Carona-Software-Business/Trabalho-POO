@@ -1,5 +1,6 @@
 package jv.kauan.trabalho_1_01.interfaces;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
@@ -17,6 +19,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class PainelAvancar extends JDialog{
+    private JPanel painelCentro;
+    private JPanel painelSul;
     private JLabel labelInteracoes;
     private JLabel labelDelay;
     private JTextField campoInteracoes;
@@ -27,26 +31,28 @@ public class PainelAvancar extends JDialog{
     public PainelAvancar(JFrame pai){
         super(pai, "Avançar Automaticamente", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500,300);
-        setLayout(new GridLayout(3,2));
+        setSize(370,150);
+        setLayout(new BorderLayout());       
         
-        labelInteracoes = new JLabel("Digite a quantidade de interaçoes: ");
-        add(labelInteracoes);
-        
-        campoInteracoes = new JTextField();
-        add(campoInteracoes);
-        
-        labelDelay = new JLabel("Selecione o delay (ms): ");
-        add(labelDelay);
-        
+        labelInteracoes = new JLabel("Quantidade de interaçoes: ");
+        campoInteracoes = new JTextField();       
+        labelDelay = new JLabel("Selecione o delay (ms): ");       
         spinnerDelay = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 100));
-        add (spinnerDelay);
         
-        botaoIniciar = new JButton("Iniciar");
-        add(botaoIniciar);
+        painelCentro = new JPanel(new GridLayout(2,2));
+        painelCentro.add(labelInteracoes);
+        painelCentro.add(campoInteracoes);
+        painelCentro.add(labelDelay);
+        painelCentro.add(spinnerDelay);
+        add(painelCentro);
         
+        botaoIniciar = new JButton("Iniciar");     
         botaoCancelar = new JButton("Cancelar");
-        add(botaoCancelar);
+        
+        painelSul = new JPanel();
+        painelSul.add(botaoCancelar);
+        painelSul.add(botaoIniciar);
+        add(painelSul, BorderLayout.SOUTH);
         
         botaoIniciar.addActionListener(new ActionListener() {
             @Override
