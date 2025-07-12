@@ -60,6 +60,7 @@ public class PainelEditarCelula extends JDialog{
         painelEstadoCelula.setBorder(BorderFactory.createTitledBorder("Estado da celula:"));
         grupoEstadoCelula = new ButtonGroup();
         radioViva = new JRadioButton("Viva");
+        radioViva.setSelected(true);
         radioMorta = new JRadioButton("Morta");
         grupoEstadoCelula.add(radioViva);
         grupoEstadoCelula.add(radioMorta);
