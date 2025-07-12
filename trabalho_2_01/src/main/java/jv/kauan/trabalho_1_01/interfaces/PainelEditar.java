@@ -31,7 +31,7 @@ public class PainelEditar extends JDialog{
     private JPanel painelCentro;
     private JPanel painelSul;
     
-    public PainelEditar(JFrame pai, Tabuleiro tabuleiro){
+    public PainelEditar(MainWindow pai, Tabuleiro tabuleiro){
         super(pai, "Editar", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -51,13 +51,14 @@ public class PainelEditar extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {  
                     JButton botaoClicado = (JButton) e.getSource();
+                    
                     String nome = botaoClicado.getName();
                     String[] partes = nome.split(" ");
                     int pos[] = new int[2];
                     pos[0] = Integer.parseInt(partes[0]);
                     pos[1] = Integer.parseInt(partes[1]);
                     
-                    painelEditarCelula = new PainelEditarCelula(pai, tabuleiro.getSimbolo(pos[0], pos[1]), tabuleiro.isVivo(pos[0], pos[1]), botaoClicado);
+                    painelEditarCelula = new PainelEditarCelula(pai, tabuleiro, pos, botaoClicado);
             }
         };
         
@@ -86,6 +87,8 @@ public class PainelEditar extends JDialog{
         botaoSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                tabuleiro.editarTabuleiro();
+                pai.setEdicaoSalva(true);
                 dispose();
             }
         });

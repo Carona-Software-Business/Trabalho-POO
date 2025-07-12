@@ -34,7 +34,7 @@ public class PainelEditarCelula extends JDialog{
     private JButton botaoSalvar;
     private JButton botaoCancelar;
     
-    public PainelEditarCelula(JFrame pai, String simbolo, boolean estado, JButton botaoClicado){
+    public PainelEditarCelula(JFrame pai, Tabuleiro tabuleiro, int[] pos, JButton botaoClicado){
         super(pai, "Editar Celula", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -71,7 +71,7 @@ public class PainelEditarCelula extends JDialog{
         botaoSalvar = new JButton("Salvar");
         botaoSalvar.setActionCommand("Salvar");
         
-        switch (simbolo){
+        switch (tabuleiro.getSimbolo(pos[0], pos[1])){
             case "+":
                 radioClassica.setSelected(true);
                 break;
@@ -88,7 +88,7 @@ public class PainelEditarCelula extends JDialog{
                 radioMatematica.setSelected(true);
         }
         
-        if(!estado){
+        if(!tabuleiro.isVivo(pos[0], pos[1])){
             radioMorta.setSelected(true);
         }else{
             radioViva.setSelected(true);
@@ -100,6 +100,7 @@ public class PainelEditarCelula extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String novoSimbolo = "";
+                boolean novoEstado;
 
                 if (radioClassica.isSelected()) {
                     novoSimbolo = "+";
@@ -110,8 +111,14 @@ public class PainelEditarCelula extends JDialog{
                 } else if (radioMatematica.isSelected()) {
                     novoSimbolo = "#";
                 }
+                
+                if(radioViva.isSelected())
+                    novoEstado = true;
+                else 
+                    novoEstado = false;
 
                 botaoClicado.setText(novoSimbolo);
+                tabuleiro.editarCelula(pos[0], pos[1], novoSimbolo, novoEstado);
 
                 dispose();
             }
