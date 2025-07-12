@@ -50,14 +50,14 @@ public class PainelEditar extends JDialog{
         ActionListener tabuleiroListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {  
-                    JButton btnClicado = (JButton) e.getSource();
-                    String nome = btnClicado.getName();
+                    JButton botaoClicado = (JButton) e.getSource();
+                    String nome = botaoClicado.getName();
                     String[] partes = nome.split(" ");
                     int pos[] = new int[2];
                     pos[0] = Integer.parseInt(partes[0]);
                     pos[1] = Integer.parseInt(partes[1]);
                     
-                    painelEditarCelula = new PainelEditarCelula(pai, tabuleiro.getSimbolo(pos[0], pos[1]), tabuleiro.isVivo(pos[0], pos[1]));
+                    painelEditarCelula = new PainelEditarCelula(pai, tabuleiro.getSimbolo(pos[0], pos[1]), tabuleiro.isVivo(pos[0], pos[1]), botaoClicado);
             }
         };
         

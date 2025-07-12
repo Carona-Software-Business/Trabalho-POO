@@ -34,7 +34,7 @@ public class PainelEditarCelula extends JDialog{
     private JButton botaoSalvar;
     private JButton botaoCancelar;
     
-    public PainelEditarCelula(JFrame pai, String simbolo, boolean estado){
+    public PainelEditarCelula(JFrame pai, String simbolo, boolean estado, JButton botaoClicado){
         super(pai, "Editar Celula", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -43,7 +43,7 @@ public class PainelEditarCelula extends JDialog{
         painelTipoCelula = new JPanel();
         painelTipoCelula.setBorder(BorderFactory.createTitledBorder("Tipo da celula:"));
         grupoTipoCelula = new ButtonGroup();
-        radioClassica = new JRadioButton("Classica");
+        radioClassica = new JRadioButton("Classica");        
         radioForte = new JRadioButton("Forte");
         radioTimida = new JRadioButton("Timida");
         radioMatematica = new JRadioButton("Matematica");
@@ -99,9 +99,24 @@ public class PainelEditarCelula extends JDialog{
         botaoSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String novoSimbolo = "";
+
+                if (radioClassica.isSelected()) {
+                    novoSimbolo = "+";
+                } else if (radioForte.isSelected()) {
+                    novoSimbolo = "@";
+                } else if (radioTimida.isSelected()) {
+                    novoSimbolo = "&";
+                } else if (radioMatematica.isSelected()) {
+                    novoSimbolo = "#";
+                }
+
+                botaoClicado.setText(novoSimbolo);
+
                 dispose();
             }
         });
+
         
         painelCentral = new JPanel(new GridLayout(2, 1));
         painelCentral.add(painelTipoCelula);
