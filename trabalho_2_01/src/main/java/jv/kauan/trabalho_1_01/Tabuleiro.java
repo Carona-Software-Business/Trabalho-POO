@@ -75,6 +75,13 @@ public class Tabuleiro {
         return colunas;
     }
     
+    public String getSimbolo(int linha, int coluna){
+        return tabuleiroAtual[linha][coluna].getSimbolo();
+    }
+    
+    public boolean isVivo(int linha, int coluna){
+        return tabuleiroAtual[linha][coluna].getVida();
+    }
     
     // Construção do tabuleiro
     private void definirTiposCelulas(String[][] tipos) {
@@ -167,6 +174,7 @@ public class Tabuleiro {
     public String toString(int linha, int coluna) {
         return tabuleiroAtual[linha][coluna].toString();
     }
+    
     
     public void printarTabuleiro() {
         for(int i = 0; i < linhas; i++) {

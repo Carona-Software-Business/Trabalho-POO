@@ -37,7 +37,7 @@ public class MainWindow extends JFrame {
     private JPanel painelCentro;
     private JPanel painelSul;
     private JPanel painelContainerTabuleiro;
-    private JPanel painelTabuleiro;
+    JPanel painelTabuleiro;
 
     private JLabel labelJogoDaVida;
     private JLabel labelInteracoes;
@@ -191,7 +191,7 @@ public class MainWindow extends JFrame {
                         
                     case "Editar":
                         //Adicionar o metodo para editar
-                        painelEditar = new PainelEditar(MainWindow.this);
+                        painelEditar = new PainelEditar(MainWindow.this, tabuleiro);
                         break;
 
                     case "Sair":

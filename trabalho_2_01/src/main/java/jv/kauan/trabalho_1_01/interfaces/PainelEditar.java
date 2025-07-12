@@ -17,12 +17,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
+import jv.kauan.trabalho_1_01.Tabuleiro;
 
 public class PainelEditar extends JDialog{
     PainelEditarCelula painelEditarCelula;
     private JLabel labelEditar; 
     
-    private JButton[][] tabuleiro;
+    private JButton[][] botoesTabuleiro;
     private JButton botaoCancelar;
     private JButton botaoSalvar;
     
@@ -30,7 +31,7 @@ public class PainelEditar extends JDialog{
     private JPanel painelCentro;
     private JPanel painelSul;
     
-    public PainelEditar(JFrame pai){
+    public PainelEditar(JFrame pai, Tabuleiro tabuleiro){
         super(pai, "Editar", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -42,22 +43,30 @@ public class PainelEditar extends JDialog{
         labelEditar.setFont(new Font("SansSerif", Font.BOLD, 38));
         painelNorte.add(labelEditar);
         
-        painelCentro = new JPanel(new GridLayout(5,5));
+        painelCentro = new JPanel(new GridLayout(tabuleiro.getLinhas() - 2,tabuleiro.getColunas() - 2));
         add(painelCentro);
-        tabuleiro = new JButton[5][5];
+        botoesTabuleiro = new JButton[tabuleiro.getLinhas() - 2][tabuleiro.getColunas() - 2];
         
         ActionListener tabuleiroListener = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                    painelEditarCelula = new PainelEditarCelula(pai);
+            public void actionPerformed(ActionEvent e) {  
+                    JButton btnClicado = (JButton) e.getSource();
+                    String nome = btnClicado.getName();
+                    String[] partes = nome.split(" ");
+                    int pos[] = new int[2];
+                    pos[0] = Integer.parseInt(partes[0]);
+                    pos[1] = Integer.parseInt(partes[1]);
+                    
+                    painelEditarCelula = new PainelEditarCelula(pai, tabuleiro.getSimbolo(pos[0], pos[1]), tabuleiro.isVivo(pos[0], pos[1]));
             }
         };
         
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 5; j++){
-                tabuleiro[i][j] = new JButton(i + "" + j);
-                tabuleiro[i][j].addActionListener(tabuleiroListener);
-                painelCentro.add(tabuleiro[i][j]);
+        for(int i = 1; i < tabuleiro.getLinhas() - 1; i++){
+            for(int j = 1; j < tabuleiro.getColunas() - 1; j++){
+                botoesTabuleiro[i-1][j-1] = new JButton(tabuleiro.getSimbolo(i, j));
+                botoesTabuleiro[i-1][j-1].addActionListener(tabuleiroListener);
+                botoesTabuleiro[i-1][j-1].setName(i + " " + j);
+                painelCentro.add(botoesTabuleiro[i-1][j-1]);
             }
         }
         
