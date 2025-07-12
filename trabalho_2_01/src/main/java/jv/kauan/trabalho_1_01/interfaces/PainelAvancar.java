@@ -28,7 +28,7 @@ public class PainelAvancar extends JDialog{
     private JButton botaoIniciar;
     private JButton botaoCancelar;
     
-    public PainelAvancar(JFrame pai){
+    public PainelAvancar(MainWindow pai){
         super(pai, "Avançar Automaticamente", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(370,150);
@@ -57,7 +57,25 @@ public class PainelAvancar extends JDialog{
         botaoIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(rootPane, "Iniciando...");
+                try {
+                    int interacoes = Integer.parseInt(campoInteracoes.getText());
+                    
+                    if(interacoes <= 0) 
+                        JOptionPane.showMessageDialog(rootPane, 
+                                "As interações devem ser maiores que 0", 
+                                "Interação inválida", JOptionPane.INFORMATION_MESSAGE);
+                    else {
+                        pai.setRepeticao(interacoes);
+                        pai.setDelay((int) spinnerDelay.getValue());
+                        pai.setComecar(true);
+                        dispose();
+                    }
+                
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(rootPane, 
+                            "Digite apenas números!", 
+                            "Interacao inválida", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
             

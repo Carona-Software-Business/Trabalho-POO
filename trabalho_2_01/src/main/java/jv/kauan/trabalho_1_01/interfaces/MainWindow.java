@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import jv.kauan.trabalho_1_01.Tabuleiro;
 
@@ -70,6 +71,14 @@ public class MainWindow extends JFrame {
     private Tabuleiro tabuleiro;
     
     private int interacao;
+    
+    private Timer timer;
+    private int delay;
+    private int repeticaoMax;
+    private int rep;
+    private ActionListener simulacaoListener;
+    private boolean pausado;
+    private boolean comecar;
 
     public MainWindow() {
         super("Jogo da vida");
@@ -134,6 +143,7 @@ public class MainWindow extends JFrame {
         
         botaoPausar = new JButton("Pausar");
         botaoPausar.setActionCommand("Pausar");
+        botaoPausar.setEnabled(false);
         
         painelSul.add(botaoAvancar);
         painelSul.add(botaoAvancarA);
@@ -298,17 +308,62 @@ public class MainWindow extends JFrame {
                     JOptionPane.showMessageDialog(rootPane, 
                             "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
                             "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
-                else
+                else {
                     painelAvancar = new PainelAvancar(MainWindow.this);
+                    if(comecar) {
+                        //System.out.println("Rep Max: " + repeticaoMax);
+                        comecarSimulacao();
+                        pausado = false;
+                        botaoPausar.setText("Pausar");
+                        botaoPausar.setEnabled(true);
+                        botaoAvancar.setEnabled(false);
+                        botaoAvancarA.setEnabled(false);
+                    }
+                }
             }
         });
         
         botaoPausar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(rootPane, "Pausar");
+                if(!pausado) {
+                    pausado = true;
+                    timer.stop();
+                    botaoPausar.setText("Retomar");
+                    botaoAvancar.setEnabled(true);
+                    botaoAvancarA.setEnabled(true);
+                } else {
+                    pausado = false;
+                    timer.start();
+                    botaoPausar.setText("Pausar");
+                    botaoAvancar.setEnabled(false);
+                    botaoAvancarA.setEnabled(false);
+                }
             }
         });
+        
+        simulacaoListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Começou");
+                if(!pausado && rep < repeticaoMax) {
+                    tabuleiro.avancarInteracao();
+                    labelInteracoes.setText("Interação: " + (++interacao));
+                    criarInterfaceTabuleiro();
+                    rep++;
+                } else if(rep >= repeticaoMax){
+                    comecar = false;
+                    timer.stop();
+                    botaoPausar.setEnabled(false);
+                    botaoAvancar.setEnabled(true);
+                    botaoAvancarA.setEnabled(true);
+                    rep = 0;
+                }
+            }
+        };
+        comecar = false;
+        pausado = false;
+        rep = 0;
         
         setLocationRelativeTo(null);
         setVisible(true);
@@ -389,4 +444,25 @@ public class MainWindow extends JFrame {
         painelContainerTabuleiro.revalidate();
         painelContainerTabuleiro.repaint();
     }
+    
+    private void comecarSimulacao() {
+        System.out.println("Criou");
+        timer = new Timer(delay, simulacaoListener);
+        timer.setInitialDelay(1500);
+        timer.start();
+    }
+    
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public void setRepeticao(int repeticao) {
+        this.repeticaoMax = repeticao;
+    }
+
+    public void setComecar(boolean comecar) {
+        this.comecar = comecar;
+    }
+    
+    
 }
