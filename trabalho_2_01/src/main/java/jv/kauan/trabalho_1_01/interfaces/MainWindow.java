@@ -202,7 +202,12 @@ public class MainWindow extends JFrame {
                         
                     case "Editar":
                         //Adicionar o metodo para editar
-                        painelEditar = new PainelEditar(MainWindow.this);
+                        if(tabuleiro.tabulerioVazio())
+                            JOptionPane.showMessageDialog(rootPane, 
+                                "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
+                                "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                        else
+                            painelEditar = new PainelEditar(MainWindow.this);
                         break;
 
                     case "Sair":
