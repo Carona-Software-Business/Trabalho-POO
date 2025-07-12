@@ -50,15 +50,19 @@ public class MainWindow extends JFrame {
     
     private JMenu menuArquivo;
     private JMenu menuAjuda;
+    private JMenu menuComoUsar;
     
     private JMenuItem menuItemAbrir;
     private JMenuItem menuItemSalvar;
     private JMenuItem menuItemEditar;
-    private JMenuItem menuItemSair;
-    private JMenuItem menuItemAjuda;    
+    private JMenuItem menuItemSair;    
     private JMenuItem menuItemCelula;   
     private JMenuItem menuItemFormato;
     private JMenuItem menuItemSobre;
+    private JMenuItem menuItemComoAbrir;
+    private JMenuItem menuItemComoSalvar;
+    private JMenuItem menuItemComoEditar;
+    private JMenuItem menuItemComoAvancar;
     
     private JLabel[][] labelTabuleiro;
     
@@ -162,27 +166,38 @@ public class MainWindow extends JFrame {
         menuArquivo.add(menuItemSair);
         barraDeMenus.add(menuArquivo);
         
+        menuComoUsar = new JMenu("Como usar");
+        menuItemComoAbrir = new JMenuItem("Como abrir");
+        menuItemComoAbrir.setActionCommand("Como abrir");
+        menuItemComoSalvar = new JMenuItem("Como salvar");
+        menuItemComoSalvar.setActionCommand("Como salvar");
+        menuItemComoEditar = new JMenuItem("Como editar");
+        menuItemComoEditar.setActionCommand("Como editar");
+        menuItemComoAvancar = new JMenuItem("Como avançar");
+        menuItemComoAvancar.setActionCommand("Como avançar");
+        menuComoUsar.add(menuItemComoAbrir);
+        menuComoUsar.add(menuItemComoSalvar);
+        menuComoUsar.add(menuItemComoEditar);
+        menuComoUsar.add(menuItemComoAvancar);
+        
         menuAjuda = new JMenu("Ajuda");
-        menuItemAjuda = new JMenuItem("Como usar");
-        menuItemAjuda.setActionCommand("Como usar");
         menuItemCelula = new JMenuItem("Tipos de celulas");
         menuItemCelula.setActionCommand("Tipos de celulas");
         menuItemFormato = new JMenuItem("Formato do arquivo");
         menuItemFormato.setActionCommand("Formato do arquivo");
         menuItemSobre = new JMenuItem("Sobre");
         menuItemSobre.setActionCommand("Sobre");
-        menuAjuda.add(menuItemAjuda);
+        menuAjuda.add(menuComoUsar);
         menuAjuda.add(menuItemCelula);
         menuAjuda.add(menuItemFormato);
         menuAjuda.add(menuItemSobre);
         barraDeMenus.add(menuAjuda);
-
+        
         setJMenuBar(barraDeMenus);
 
         ActionListener menuListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int resultado;
                 switch (e.getActionCommand()) {
                     case "Abrir":
                         abrirArquivo();
@@ -207,20 +222,101 @@ public class MainWindow extends JFrame {
                                 "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
                                 "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
                         else
-                            painelEditar = new PainelEditar(MainWindow.this);
+                            painelEditar = new PainelEditar(MainWindow.this, tabuleiro);
                         break;
 
                     case "Sair":
                         dispose();
                         break;
 
-                    case "Como usar":
-                        JOptionPane.showMessageDialog(rootPane, "Para abrir um arquivo, "
-                                + "selecione Arquivo -> Abrir e então escolha o arquivo. "
-                                + "\n\nPara salvar um arquivo, clique em Arquivo -> Salvar. "
-                                + "O conteúdo atual do tabuleiro será salvo.");
+                    case "Como abrir":
+                        JOptionPane.showMessageDialog(rootPane, "📁 Como abrir um arquivo:\n"
+                                + "◦Para abrir um arquivo salvo anteriormente, siga os passos abaixo:\n"
+                                + "\n"
+                                + "1 - Clique no menu Arquivo, localizado no canto superior esquerdo da tela.\n"
+                                + "\n"
+                                + "2 - Selecione a opção Abrir.\n"
+                                + "\n"
+                                + "3 - Na janela que será exibida, escolha o arquivo desejado no seu computador.\n"
+                                + "\n"
+                                + "4 - Clique em Abrir para carregar o conteúdo no programa.\n"
+                                + "\n"
+                                + "*Certifique-se de que o arquivo esteja no formato compatível com o sistema.");
                         break;
                         
+                    case "Como salvar":
+                        JOptionPane.showMessageDialog(rootPane, "💾  Como salvar um tabuleiro:\n"
+                                + "◦Para salvar o tabuleiro atual, siga os passos:\n"
+                                + "\n"
+                                + "1 - Com o tabuleiro carregado ou editado na tela, vá até o menu Arquivo, no canto superior esquerdo.\n"
+                                + "\n"
+                                + "2 - Clique na opção Salvar.\n"
+                                + "\n"
+                                + "3 - Uma janela será exibida permitindo que você:\n"
+                                + "\n"
+                                + "    Escolha a pasta onde deseja salvar o arquivo.\n"
+                                + "\n"
+                                + "    Digite o nome do arquivo.\n"
+                                + "\n"
+                                + "4 - Após definir o local e o nome, clique em Salvar.\n"
+                                + "\n"
+                                + "* O tabuleiro será gravado no local escolhido com as configurações atuais.");
+                        break;
+                    
+                    case "Como editar":
+                        JOptionPane.showMessageDialog(rootPane, "✏️ Como editar o tabuleiro:\n"
+                                + "◦Para editar uma célula do tabuleiro, siga os passos abaixo:\n"
+                                + "\n"
+                                + "1 - Vá até o menu Arquivo, no canto superior esquerdo da tela.\n"
+                                + "\n"
+                                + "2 - Clique na opção Editar.\n"
+                                + "\n"
+                                + "3 - Uma nova janela será aberta exibindo o tabuleiro em formato de botões.\n"
+                                + "\n"
+                                + "4 - Clique no botão correspondente à célula que deseja modificar.\n"
+                                + "\n"
+                                + "5 - Um menu será exibido para que você selecione:\n"
+                                + "\n"
+                                + "    ◦O tipo da célula (Clássica, Forte, Tímida ou Matemática).\n"
+                                + "\n"
+                                + "    ◦O estado da célula (Viva ou Morta).\n"
+                                + "\n"
+                                + "6 - Após fazer as alterações, clique em Salvar na janela de edição.\n"
+                                + "\n"
+                                + "*A célula será atualizada com as novas configurações.\n"
+                                + "\n"
+                                + "Atenção: o tabuleiro só será alterado se você clicar no botão Salvar.");
+                        break;
+
+                    case "Como avançar":
+                        JOptionPane.showMessageDialog(rootPane, "⏭️ Como avançar o tabuleiro:\n"
+                                + "O sistema oferece duas formas de avançar as interações do tabuleiro:\n"
+                                + "\n"
+                                + "🔹 Avançar manualmente:\n"
+                                + "1 - Na tela principal, clique no botão Avançar.\n"
+                                + "\n"
+                                + "2 - O tabuleiro será atualizado para a próxima interação (uma única vez).\n"
+                                + "\n"
+                                + "🔹 Avançar automaticamente:\n"
+                                + "1 - Clique no botão Avançar automaticamente, também localizado na tela principal.\n"
+                                + "\n"
+                                + "2 - Uma nova janela será exibida.\n"
+                                + "\n"
+                                + "3 - Nessa janela, você deve:\n"
+                                + "\n"
+                                + "    ◦Informar o número de interações desejado.\n"
+                                + "\n"
+                                + "    ◦Definir o tempo de delay (em milissegundos) entre cada interação.\n"
+                                + "\n"
+                                + "4 - Após configurar, clique em Iniciar.\n"
+                                + "\n"
+                                + "5 - O tabuleiro começará a avançar automaticamente com base nas configurações fornecidas.\n\n"
+                                + "⚠️ Observações:\n"
+                                + "◦Enquanto as interações automáticas estiverem em andamento, o tabuleiro será atualizado a cada intervalo de tempo definido.\n"
+                                + "\n"
+                                + "◦Você pode interromper a execução precionando o botão de pausar.");
+                        break;
+
                     case "Tipos de celulas":
                         JOptionPane.showMessageDialog(rootPane, "◦ Célula clássica: se comporta de maneira idêntica "
                                 + "às células do jogo da vida original.\n"
@@ -270,7 +366,10 @@ public class MainWindow extends JFrame {
         menuItemSalvar.addActionListener(menuListener);
         menuItemEditar.addActionListener(menuListener);
         menuItemSair.addActionListener(menuListener);
-        menuItemAjuda.addActionListener(menuListener);
+        menuItemComoAbrir.addActionListener(menuListener);
+        menuItemComoSalvar.addActionListener(menuListener);
+        menuItemComoEditar.addActionListener(menuListener);
+        menuItemComoAvancar.addActionListener(menuListener);
         menuItemCelula.addActionListener(menuListener);
         menuItemFormato.addActionListener(menuListener);
         menuItemSobre.addActionListener(menuListener);
