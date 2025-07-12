@@ -143,9 +143,9 @@ public class MainWindow extends JFrame {
         painelSul.add(botaoAvancarA);
         painelSul.add(botaoPausar);
         
-        botaoAvancar.setPreferredSize(new Dimension(160, 30));
-        botaoAvancarA.setPreferredSize(new Dimension(160, 30));
-        botaoPausar.setPreferredSize(new Dimension(160, 30));
+        botaoAvancar.setPreferredSize(new Dimension(200, 30));
+        botaoAvancarA.setPreferredSize(new Dimension(200, 30));
+        botaoPausar.setPreferredSize(new Dimension(200, 30));
         
         add(painelSul, BorderLayout.SOUTH);
         
