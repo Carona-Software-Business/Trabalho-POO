@@ -22,6 +22,11 @@ public class Tabuleiro {
     private int interacao;
     
     // Construtores
+    public Tabuleiro() {
+        tabuleiroAtual = null;
+        tabuleiroProximo = null;
+    }
+    
     public Tabuleiro(int linhas, int colunas, String tipos[][], int[][] estados) {
         this.linhas = linhas + 2;
         this.colunas = colunas + 2;
@@ -217,6 +222,10 @@ public class Tabuleiro {
         }
         
         return retorno;
+    }
+    
+    public boolean tabulerioVazio() {
+        return tabuleiroAtual == null ? true : false; 
     }
     
     // Antigo
