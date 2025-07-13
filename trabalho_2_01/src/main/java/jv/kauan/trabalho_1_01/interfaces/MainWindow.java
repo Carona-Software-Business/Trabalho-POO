@@ -77,6 +77,8 @@ public class MainWindow extends JFrame {
     
     private int interacao;
     
+    private boolean edicaoSalva;
+    
     private Timer timer;
     private int delay;
     private int repeticaoMax;
@@ -236,6 +238,10 @@ public class MainWindow extends JFrame {
                                 "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
                         else
                             painelEditar = new PainelEditar(MainWindow.this, tabuleiro);
+                            if(edicaoSalva) {
+                                criarInterfaceTabuleiro();
+                                edicaoSalva = false;
+                            }
                         break;
 
                     case "Sair":
@@ -471,6 +477,8 @@ public class MainWindow extends JFrame {
     public void setComecar(boolean comecar) {
         this.comecar = comecar;
     }
-    
-    
+
+    public void setEdicaoSalva(boolean edicaoSalva) {
+        this.edicaoSalva = edicaoSalva;
+    }
 }

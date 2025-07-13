@@ -18,6 +18,7 @@ public class Tabuleiro {
     
     Celula[][] tabuleiroAtual;
     Celula[][] tabuleiroProximo;
+    Celula[][] tabuleiroEdicao;
     
     private int interacao;
     
@@ -64,6 +65,7 @@ public class Tabuleiro {
         definirEstadosCelulas(estados);
         
         tabuleiroProximo = copiarTabuleiro(tabuleiroAtual);
+        tabuleiroEdicao = copiarTabuleiro(tabuleiroAtual);
         
         printarTabuleiro();
         
@@ -155,6 +157,9 @@ public class Tabuleiro {
         
         tabuleiroAtual = copiarTabuleiro(tabuleiroProximo);
         tabuleiroProximo = copiarTabuleiro(tabuleiroAtual);
+        
+        System.out.println("------------");
+        printarTabuleiro();
     }
     
     public void avancarInteracao(int numeroInteracoes) {
@@ -200,6 +205,13 @@ public class Tabuleiro {
             }
         }
         
+        System.out.println("Copia:");
+        for(int i = 0; i < linhas; i++) {
+            for(int j = 0; j < colunas; j++) {
+                System.out.println(destino[i][j]);
+            }
+        }
+        
         return destino;
     }
     
@@ -234,6 +246,32 @@ public class Tabuleiro {
     
     public boolean tabulerioVazio() {
         return tabuleiroAtual == null ? true : false; 
+    }
+    
+    public void editarCelula(int linha, int coluna, String simbolo, boolean estado) {
+        switch (simbolo) {
+            case "+":
+                tabuleiroEdicao[linha][coluna] = new CelulaClassica();
+                break;
+            case "&":
+                tabuleiroEdicao[linha][coluna] = new CelulaTimida();
+                break;
+            case "@":
+                tabuleiroEdicao[linha][coluna] = new CelulaForte();
+                break;
+            case "#":
+                tabuleiroEdicao[linha][coluna] = new CelulaMatematica();
+                break;
+        }
+        
+        tabuleiroEdicao[linha][coluna].setVida(estado);
+    }
+    
+    public void editarTabuleiro() {
+        tabuleiroAtual = copiarTabuleiro(tabuleiroEdicao);
+        tabuleiroProximo = copiarTabuleiro(tabuleiroEdicao);
+        System.out.println("Editado:");
+        printarTabuleiro();
     }
     
     // Antigo
