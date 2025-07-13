@@ -11,7 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import jv.kauan.trabalho_1_01.Tabuleiro;
+import jv.kauan.trabalho_2_01.Tabuleiro;
 
 public class PainelEditarCelula extends JDialog{
     private JPanel painelTipoCelula;

@@ -12,7 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import jv.kauan.trabalho_1_01.Tabuleiro;
+import jv.kauan.trabalho_2_01.Tabuleiro;
 
 public class PainelEditar extends JDialog{
     PainelEditarCelula painelEditarCelula;

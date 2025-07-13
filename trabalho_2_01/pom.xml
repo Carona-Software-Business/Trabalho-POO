@@ -8,7 +8,25 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>24</maven.compiler.release>
-        <exec.mainClass>jv.kauan.trabalho_1_01.Trabalho_2_01</exec.mainClass>
+        <exec.mainClass>jv.kauan.trabalho_2_01.Trabalho_2_01</exec.mainClass>
     </properties>
+
+    <build>
+        <finalName>JogoVidaJK</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>jv.kauan.trabalho_2_01.Trabalho_2_01</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
     <name>trabalho_2_01</name>
 </project>

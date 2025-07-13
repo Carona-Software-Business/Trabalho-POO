@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import jv.kauan.trabalho_1_01.Tabuleiro;
+import jv.kauan.trabalho_2_01.Tabuleiro;
 import jv.kauan.trabalho_1_01.interfaces.MensagensAjuda;
 
 public class MainWindow extends JFrame {
@@ -473,7 +473,7 @@ public class MainWindow extends JFrame {
     private boolean timerIsRunning() {
         if(timer != null && timer.isRunning()){
             JOptionPane.showMessageDialog(MainWindow.this, 
-                    "Pause o a interação para abrir outro tabuleiro!", 
+                    "Pause a interação para realizar esta ação!", 
                     "Interação rodando", JOptionPane.INFORMATION_MESSAGE);
             return true;
         }
