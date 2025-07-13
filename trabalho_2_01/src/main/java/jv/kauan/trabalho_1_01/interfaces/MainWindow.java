@@ -251,31 +251,38 @@ public class MainWindow extends JFrame {
                         break;
 
                     case "Como abrir":
-                        JOptionPane.showMessageDialog(rootPane, MensagensAjuda.COMO_ABRIR);
+                        JOptionPane.showMessageDialog(rootPane, 
+                                MensagensAjuda.COMO_ABRIR);
                         break;
                         
                     case "Como salvar":
-                        JOptionPane.showMessageDialog(rootPane, MensagensAjuda.COMO_SALVAR);
+                        JOptionPane.showMessageDialog(rootPane, 
+                                MensagensAjuda.COMO_SALVAR);
                         break;
                     
                     case "Como editar":
-                        JOptionPane.showMessageDialog(rootPane, MensagensAjuda.COMO_EDITAR);
+                        JOptionPane.showMessageDialog(rootPane, 
+                                MensagensAjuda.COMO_EDITAR);
                         break;
 
                     case "Como avançar":
-                        JOptionPane.showMessageDialog(rootPane, MensagensAjuda.COMO_AVANCAR);
+                        JOptionPane.showMessageDialog(rootPane, 
+                                MensagensAjuda.COMO_AVANCAR);
                         break;
 
                     case "Tipos de celulas":
-                        JOptionPane.showMessageDialog(rootPane, MensagensAjuda.TIPOS_CELULAS);
+                        JOptionPane.showMessageDialog(rootPane, 
+                                MensagensAjuda.TIPOS_CELULAS);
                         break;
                         
                     case "Formato do arquivo":
-                        JOptionPane.showMessageDialog(rootPane, MensagensAjuda.FORMATO_ARQUIVO);                              
+                        JOptionPane.showMessageDialog(rootPane, 
+                                MensagensAjuda.FORMATO_ARQUIVO);                              
                         break;
 
                     case "Sobre":
-                        JOptionPane.showMessageDialog(rootPane, MensagensAjuda.SOBRE);
+                        JOptionPane.showMessageDialog(rootPane, 
+                                MensagensAjuda.SOBRE);
                         break;
                 }
             }
