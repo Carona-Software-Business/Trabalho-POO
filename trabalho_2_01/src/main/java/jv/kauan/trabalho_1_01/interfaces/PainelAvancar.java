@@ -1,7 +1,6 @@
 package jv.kauan.trabalho_1_01.interfaces;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class PainelAvancar extends JDialog{
     private JPanel painelCentro;
@@ -61,9 +56,9 @@ public class PainelAvancar extends JDialog{
                 try {
                     int interacoes = Integer.parseInt(campoInteracoes.getText());
                     
-                    if(interacoes <= 0) 
+                    if(interacoes <= 0 || interacoes > 100) 
                         JOptionPane.showMessageDialog(rootPane, 
-                                "As interações devem ser maiores que 0", 
+                                "As interações devem estar entre 1 e 100!", 
                                 "Interação inválida", JOptionPane.INFORMATION_MESSAGE);
                     else {
                         pai.setRepeticao(interacoes);

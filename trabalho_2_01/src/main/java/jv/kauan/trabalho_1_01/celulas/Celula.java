@@ -22,7 +22,7 @@ public abstract class Celula implements Cloneable {
     }
     
     // GetVida
-    public boolean getVida() {
+    public boolean isVivo() {
         return this.isVivo;
     }
 
@@ -44,7 +44,7 @@ public abstract class Celula implements Cloneable {
         for(int i = (posL - 1); i <= (posL + 1); i++) {
             for(int j = (posC - 1); j <= (posC + 1); j++) {
                 if(i != posL || j != posC) {
-                    if(tabuleiro[i][j].getVida()){
+                    if(tabuleiro[i][j].isVivo()){
                         qtdVizinhos++;
                     }
                 }

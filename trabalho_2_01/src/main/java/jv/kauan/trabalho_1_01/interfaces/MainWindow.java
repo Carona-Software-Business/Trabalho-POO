@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,8 +23,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import jv.kauan.trabalho_1_01.Tabuleiro;
@@ -65,23 +62,23 @@ public class MainWindow extends JFrame {
     private JMenuItem menuItemComoEditar;
     private JMenuItem menuItemComoAvancar;
     
-    private JLabel[][] labelTabuleiro;
+    private String msgTabuleiro = "Não há nenhum tabuleiro no momento!"
+            + "\nAbra um tabuleiro!";
+    private String tituloMsgTabuleiro = "Abra um tabuleiro.";
     
-    //private JTextArea textTabuleiro;
+    private JLabel[][] labelTabuleiro;
     
     private JFileChooser fileManager;
     private File file;
     
     private Tabuleiro tabuleiro;
     
-    private int interacao;
-    
     private boolean edicaoSalva;
     
     private Timer timer;
     private int delay;
     private int repeticaoMax;
-    private int rep;
+    private int repeticaoAtual;
     private ActionListener simulacaoListener;
     private boolean pausado;
     private boolean comecar;
@@ -92,7 +89,6 @@ public class MainWindow extends JFrame {
         
         fileManager = new JFileChooser();
         fileManager.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        interacao = 0;
         tabuleiro = new Tabuleiro();
         
         
@@ -109,7 +105,7 @@ public class MainWindow extends JFrame {
         labelJogoDaVida.setFont(new Font("SansSerif", Font.BOLD, 48));
         painelNorte.add(labelJogoDaVida);
         
-        labelInteracoes = new JLabel("Interação: " + interacao);
+        labelInteracoes = new JLabel("Interação");
         labelInteracoes.setFont(new Font("SansSerif", Font.PLAIN, 20));
         labelInteracoes.setBorder(new EmptyBorder(50, 0, 20, 0));
         painelNorte.add(labelInteracoes);
@@ -121,15 +117,9 @@ public class MainWindow extends JFrame {
         painelCentro.setBorder(new EmptyBorder(10, 10, 10, 10));
         add(painelCentro, BorderLayout.CENTER);
         
-        /*
-        textTabuleiro = new JTextArea();
-        textTabuleiro.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        JScrollPane scrollPane = new JScrollPane(textTabuleiro);
-        painelCentro.add(scrollPane, BorderLayout.CENTER);
-        */
+        
         painelContainerTabuleiro = new JPanel();
         painelContainerTabuleiro.setLayout(new FlowLayout(FlowLayout.CENTER));
-        //painelContainerTabuleiro.setBackground(Color.red);
         painelCentro.add(painelContainerTabuleiro, BorderLayout.CENTER);
         
         painelTabuleiro = new JPanel();
@@ -212,35 +202,47 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
                     case "Abrir":
-                        if (abrirArquivo()) {
-                            criarInterfaceTabuleiro();
-                            interacao = 0;
-                            labelInteracoes.setText("Interacao: " + interacao);
+                        if(!timerIsRunning()) {
+                            if(!tabuleiro.estaVazio())
+                                JOptionPane.showMessageDialog(MainWindow.this, 
+                                    "Salve o tabuleiro para não perder o progresso!", 
+                                    "Salve o tabuleiro", 
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            
+                            if(abrirArquivo()) {
+                                criarInterfaceTabuleiro();
+                                labelInteracoes.setText("Interacao: " + 
+                                        tabuleiro.getInteracao());
+                                timer = null;
+                                botaoPausar.setEnabled(false);
+                            }
                         }
-
                         break;
 
                     case "Salvar":
-                        if (tabuleiro.tabulerioVazio())
-                            JOptionPane.showMessageDialog(rootPane,
-                                    "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!",
-                                    "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
-                        else
-                            salvarArquivo();
+                        if(!timerIsRunning()) {
+                             if (tabuleiro.estaVazio())
+                                JOptionPane.showMessageDialog(rootPane, msgTabuleiro,
+                                                        tituloMsgTabuleiro,
+                                                        JOptionPane.INFORMATION_MESSAGE);
+                            else
+                                salvarArquivo();
+                        }
                         break;
                         
                     case "Editar":
-                        //Adicionar o metodo para editar
-                        if(tabuleiro.tabulerioVazio())
-                            JOptionPane.showMessageDialog(rootPane, 
-                                "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
-                                "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
-                        else
-                            painelEditar = new PainelEditar(MainWindow.this, tabuleiro);
-                            if(edicaoSalva) {
-                                criarInterfaceTabuleiro();
-                                edicaoSalva = false;
-                            }
+                        if(!timerIsRunning()) {
+                            if(tabuleiro.estaVazio())
+                                JOptionPane.showMessageDialog(rootPane, msgTabuleiro, 
+                                                    tituloMsgTabuleiro, 
+                                                    JOptionPane.INFORMATION_MESSAGE);
+                            else
+                                painelEditar = new PainelEditar(MainWindow.this, tabuleiro);
+                                if(edicaoSalva) {
+                                    criarInterfaceTabuleiro();
+                                    edicaoSalva = false;
+                                }
+                        }
                         break;
 
                     case "Sair":
@@ -395,15 +397,11 @@ public class MainWindow extends JFrame {
         botaoAvancar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(rootPane, "Avançar");
-                if(tabuleiro.tabulerioVazio())
-                    JOptionPane.showMessageDialog(rootPane, 
-                            "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
-                            "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                if(tabuleiro.estaVazio())
+                    JOptionPane.showMessageDialog(rootPane, msgTabuleiro, 
+                            tituloMsgTabuleiro, JOptionPane.INFORMATION_MESSAGE);
                 else {
-                    tabuleiro.avancarInteracao();
-                    criarInterfaceTabuleiro();
-                    labelInteracoes.setText("Interação: " + (++interacao));
+                    avancarInteracao();
                 }
             }
         });
@@ -411,16 +409,14 @@ public class MainWindow extends JFrame {
         botaoAvancarA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(tabuleiro.tabulerioVazio())
-                    JOptionPane.showMessageDialog(rootPane, 
-                            "Não há nenhum tabuleiro no momento!\nAbra um tabuleiro!", 
-                            "Abra um tabuleiro.", JOptionPane.INFORMATION_MESSAGE);
+                if(tabuleiro.estaVazio())
+                    JOptionPane.showMessageDialog(rootPane, msgTabuleiro, 
+                            tituloMsgTabuleiro, JOptionPane.INFORMATION_MESSAGE);
                 else {
                     painelAvancar = new PainelAvancar(MainWindow.this);
                     if(comecar) {
-                        //System.out.println("Rep Max: " + repeticaoMax);
                         comecarSimulacao();
-                        rep = 0;
+                        repeticaoAtual = 0;
                         pausado = false;
                         botaoPausar.setText("Pausar");
                         botaoPausar.setEnabled(true);
@@ -453,25 +449,21 @@ public class MainWindow extends JFrame {
         simulacaoListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Começou");
-                if(!pausado && rep < repeticaoMax) {
-                    tabuleiro.avancarInteracao();
-                    labelInteracoes.setText("Interação: " + (++interacao));
-                    criarInterfaceTabuleiro();
-                    rep++;
-                } else if(rep >= repeticaoMax){
+                //System.out.println("Começou");
+                if(!pausado && repeticaoAtual < repeticaoMax) {
+                    avancarInteracao();
+                    repeticaoAtual++;
+                } else if(repeticaoAtual >= repeticaoMax){
                     comecar = false;
                     timer.stop();
                     botaoPausar.setEnabled(false);
                     botaoAvancar.setEnabled(true);
                     botaoAvancarA.setEnabled(true);
-                    rep = 0;
+                    repeticaoAtual = 0;
                 }
             }
         };
         comecar = false;
-        pausado = false;
-        rep = 0;
         
         setLocationRelativeTo(null);
         setVisible(true);
@@ -518,7 +510,7 @@ public class MainWindow extends JFrame {
         file = fileManager.getSelectedFile();
         
         if(res == JFileChooser.APPROVE_OPTION) {
-            try(PrintWriter writer = new PrintWriter(file);) {
+            try(PrintWriter writer = new PrintWriter(file)) {
                 // Salvar arquivo.
                 writer.print(tabuleiro.salvarTabuleiro());
                 
@@ -540,17 +532,17 @@ public class MainWindow extends JFrame {
         painelContainerTabuleiro.remove(painelTabuleiro);
         
         painelTabuleiro = new JPanel();
-        painelTabuleiro.setLayout(new GridLayout(tabuleiro.getLinhas(), tabuleiro.getColunas()));
+        painelTabuleiro.setLayout(new GridLayout(tabuleiro.getLinhas(), 
+                                                    tabuleiro.getColunas()));
         painelTabuleiro.setMinimumSize(new Dimension(600, 400));
         painelTabuleiro.setPreferredSize(new Dimension(600, 400));
         painelTabuleiro.setMaximumSize(new Dimension(600, 400));
-        //painelTabuleiro.setBackground(Color.BLUE);
         painelContainerTabuleiro.add(painelTabuleiro);
         
         labelTabuleiro = new JLabel[tabuleiro.getLinhas()][tabuleiro.getColunas()];
         for(int i = 0; i < tabuleiro.getLinhas(); i++) {
             for(int j = 0; j < tabuleiro.getColunas(); j++) {
-                labelTabuleiro[i][j] = new JLabel(tabuleiro.toString(i, j));
+                labelTabuleiro[i][j] = new JLabel(tabuleiro.printarCelula(i, j));
                 labelTabuleiro[i][j].setFont(new Font("Arial", Font.BOLD, 24));
                 painelTabuleiro.add(labelTabuleiro[i][j]);
             }
@@ -561,12 +553,28 @@ public class MainWindow extends JFrame {
     }
     
     private void comecarSimulacao() {
-        System.out.println("Criou");
         timer = new Timer(delay, simulacaoListener);
         timer.setInitialDelay(1500);
         timer.start();
     }
     
+    private void avancarInteracao() {
+        tabuleiro.avancarInteracao();
+        labelInteracoes.setText("Interação: " + tabuleiro.getInteracao());
+        criarInterfaceTabuleiro();
+    }
+    
+    private boolean timerIsRunning() {
+        if(timer != null && timer.isRunning()){
+            JOptionPane.showMessageDialog(MainWindow.this, 
+                    "Pause o a interação para abrir outro tabuleiro!", 
+                    "Interação rodando", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        }
+        return false;
+    }
+    
+    // Setters
     public void setDelay(int delay) {
         this.delay = delay;
     }

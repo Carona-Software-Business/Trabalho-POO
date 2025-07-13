@@ -9,7 +9,6 @@ jv\kauan\trabalho_1_01\interfaces\MainWindow$2.class
 jv\kauan\trabalho_1_01\celulas\CelulaForte.class
 jv\kauan\trabalho_1_01\interfaces\MainWindow.class
 jv\kauan\trabalho_1_01\interfaces\PainelEditar.class
-jv\kauan\trabalho_1_01\testes.class
 jv\kauan\trabalho_1_01\celulas\CelulaTimida.class
 jv\kauan\trabalho_1_01\interfaces\PainelEditarCelula.class
 jv\kauan\trabalho_1_01\celulas\CelulaClassica.class
@@ -18,6 +17,7 @@ jv\kauan\trabalho_1_01\celulas\CelulaBorda.class
 jv\kauan\trabalho_1_01\interfaces\MainWindow$3.class
 jv\kauan\trabalho_1_01\Tabuleiro.class
 jv\kauan\trabalho_1_01\interfaces\PainelEditar$1.class
+jv\kauan\trabalho_1_01\mainAntigo.class
 jv\kauan\trabalho_1_01\interfaces\PainelAvancar.class
 jv\kauan\trabalho_1_01\interfaces\PainelAvancar$2.class
 jv\kauan\trabalho_1_01\interfaces\MainWindow$4.class

@@ -1,22 +1,17 @@
 package jv.kauan.trabalho_1_01.interfaces;
 
 import java.awt.BorderLayout;
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.border.EmptyBorder;
 import jv.kauan.trabalho_1_01.Tabuleiro;
 
 public class PainelEditar extends JDialog{
@@ -43,9 +38,11 @@ public class PainelEditar extends JDialog{
         labelEditar.setFont(new Font("SansSerif", Font.BOLD, 38));
         painelNorte.add(labelEditar);
         
-        painelCentro = new JPanel(new GridLayout(tabuleiro.getLinhas() - 2,tabuleiro.getColunas() - 2));
+        painelCentro = new JPanel(new GridLayout(tabuleiro.getLinhas() - 2,
+                                                    tabuleiro.getColunas() - 2));
         add(painelCentro);
-        botoesTabuleiro = new JButton[tabuleiro.getLinhas() - 2][tabuleiro.getColunas() - 2];
+        botoesTabuleiro = new JButton[tabuleiro.getLinhas() - 2]
+                                        [tabuleiro.getColunas() - 2];
         
         ActionListener tabuleiroListener = new ActionListener() {
             @Override
@@ -58,7 +55,8 @@ public class PainelEditar extends JDialog{
                     pos[0] = Integer.parseInt(partes[0]);
                     pos[1] = Integer.parseInt(partes[1]);
                     
-                    painelEditarCelula = new PainelEditarCelula(pai, tabuleiro, pos, botaoClicado);
+                    painelEditarCelula = new PainelEditarCelula(pai, tabuleiro, 
+                                                                pos, botaoClicado);
             }
         };
         
@@ -74,9 +72,7 @@ public class PainelEditar extends JDialog{
         painelSul = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 10));
         add(painelSul, BorderLayout.SOUTH);
         botaoCancelar = new JButton("Cancelar");
-        botaoCancelar.setActionCommand("Cancelar");
         botaoSalvar = new JButton("Salvar");
-        botaoSalvar.setActionCommand("Salvar");
         painelSul.add(botaoCancelar);
         painelSul.add(botaoSalvar);
         botaoCancelar.setPreferredSize(new Dimension(160, 30));

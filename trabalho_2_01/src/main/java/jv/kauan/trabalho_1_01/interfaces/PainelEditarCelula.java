@@ -1,7 +1,6 @@
 package jv.kauan.trabalho_1_01.interfaces;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +35,7 @@ public class PainelEditarCelula extends JDialog{
     
     public PainelEditarCelula(JFrame pai, Tabuleiro tabuleiro, int[] pos, JButton botaoClicado){
         super(pai, "Editar Celula", true);
+        
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         setSize(300, 250);
@@ -67,11 +67,9 @@ public class PainelEditarCelula extends JDialog{
         painelEstadoCelula.add(radioMorta);
         
         botaoCancelar = new JButton("Cancelar");
-        botaoCancelar.setActionCommand("Cancelar");
         botaoSalvar = new JButton("Salvar");
-        botaoSalvar.setActionCommand("Salvar");
         
-        switch (tabuleiro.getSimbolo(pos[0], pos[1])){
+        switch (tabuleiro.getSimboloEditar(pos[0], pos[1])){
             case "+":
                 radioClassica.setSelected(true);
                 break;
@@ -88,7 +86,7 @@ public class PainelEditarCelula extends JDialog{
                 radioMatematica.setSelected(true);
         }
         
-        if(!tabuleiro.isVivo(pos[0], pos[1])){
+        if(!tabuleiro.isVivoEditar(pos[0], pos[1])){
             radioMorta.setSelected(true);
         }else{
             radioViva.setSelected(true);
