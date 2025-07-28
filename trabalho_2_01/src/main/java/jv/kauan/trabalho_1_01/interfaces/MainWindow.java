@@ -125,9 +125,9 @@ public class MainWindow extends JFrame {
         
         painelTabuleiro = new JPanel();
         painelTabuleiro.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        painelTabuleiro.setMinimumSize(new Dimension(600, 400));
-        painelTabuleiro.setPreferredSize(new Dimension(600, 400));
-        painelTabuleiro.setMaximumSize(new Dimension(600, 400));
+        painelTabuleiro.setMinimumSize(new Dimension(900, 500));
+        painelTabuleiro.setPreferredSize(new Dimension(900, 500));
+        painelTabuleiro.setMaximumSize(new Dimension(900, 500));
         painelContainerTabuleiro.add(painelTabuleiro);
         
         painelSul = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 10));  
@@ -440,9 +440,9 @@ public class MainWindow extends JFrame {
         painelTabuleiro = new JPanel();
         painelTabuleiro.setLayout(new GridLayout(tabuleiro.getLinhas(), 
                                                     tabuleiro.getColunas()));
-        painelTabuleiro.setMinimumSize(new Dimension(600, 400));
-        painelTabuleiro.setPreferredSize(new Dimension(600, 400));
-        painelTabuleiro.setMaximumSize(new Dimension(600, 400));
+        painelTabuleiro.setMinimumSize(new Dimension(900, 500));
+        painelTabuleiro.setPreferredSize(new Dimension(900, 500));
+        painelTabuleiro.setMaximumSize(new Dimension(900, 500));
         painelContainerTabuleiro.add(painelTabuleiro);
         
         labelTabuleiro = new JLabel[tabuleiro.getLinhas()][tabuleiro.getColunas()];
