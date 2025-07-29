@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import jv.kauan.trabalho_2_01.Tabuleiro;
-import jv.kauan.trabalho_1_01.interfaces.MensagensAjuda;
+import jv.kauan.trabalho_2_01.Mensagens;
 
 public class MainWindow extends JFrame {
     PainelAvancar painelAvancar;
@@ -62,10 +62,6 @@ public class MainWindow extends JFrame {
     private JMenuItem menuItemComoSalvar;
     private JMenuItem menuItemComoEditar;
     private JMenuItem menuItemComoAvancar;
-    
-    private String msgTabuleiro = "Não há nenhum tabuleiro no momento!"
-            + "\nAbra um tabuleiro!";
-    private String tituloMsgTabuleiro = "Abra um tabuleiro.";
     
     private JLabel[][] labelTabuleiro;
     
@@ -206,8 +202,8 @@ public class MainWindow extends JFrame {
                         if(!timerIsRunning()) {
                             if(!tabuleiro.estaVazio())
                                 JOptionPane.showMessageDialog(MainWindow.this, 
-                                    "Salve o tabuleiro para não perder o progresso!", 
-                                    "Salve o tabuleiro", 
+                                    Mensagens.SALVAR_TABULEIRO.toString(), 
+                                    Mensagens.TITULO_SALVAR_TABULEIRO.toString(), 
                                     JOptionPane.INFORMATION_MESSAGE);
                             
                             if(abrirArquivo()) {
@@ -223,9 +219,10 @@ public class MainWindow extends JFrame {
                     case "Salvar":
                         if(!timerIsRunning()) {
                              if (tabuleiro.estaVazio())
-                                JOptionPane.showMessageDialog(rootPane, msgTabuleiro,
-                                                        tituloMsgTabuleiro,
-                                                        JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(rootPane, 
+                                                Mensagens.TABULEIRO_INEXISTENTE.toString(),
+                                                Mensagens.TITULO_TABULEIRO_INEXISTENTE.toString(),
+                                                JOptionPane.INFORMATION_MESSAGE);
                             else
                                 salvarArquivo();
                         }
@@ -234,9 +231,10 @@ public class MainWindow extends JFrame {
                     case "Editar":
                         if(!timerIsRunning()) {
                             if(tabuleiro.estaVazio())
-                                JOptionPane.showMessageDialog(rootPane, msgTabuleiro, 
-                                                    tituloMsgTabuleiro, 
-                                                    JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(rootPane, 
+                                        Mensagens.TABULEIRO_INEXISTENTE.toString(), 
+                                        Mensagens.TITULO_TABULEIRO_INEXISTENTE.toString(), 
+                                        JOptionPane.INFORMATION_MESSAGE);
                             else
                                 painelEditar = new PainelEditar(MainWindow.this, tabuleiro);
                                 if(edicaoSalva) {
@@ -252,37 +250,37 @@ public class MainWindow extends JFrame {
 
                     case "Como abrir":
                         JOptionPane.showMessageDialog(rootPane, 
-                                MensagensAjuda.COMO_ABRIR);
+                                Mensagens.COMO_ABRIR);
                         break;
                         
                     case "Como salvar":
                         JOptionPane.showMessageDialog(rootPane, 
-                                MensagensAjuda.COMO_SALVAR);
+                                Mensagens.COMO_SALVAR);
                         break;
                     
                     case "Como editar":
                         JOptionPane.showMessageDialog(rootPane, 
-                                MensagensAjuda.COMO_EDITAR);
+                                Mensagens.COMO_EDITAR);
                         break;
 
                     case "Como avançar":
                         JOptionPane.showMessageDialog(rootPane, 
-                                MensagensAjuda.COMO_AVANCAR);
+                                Mensagens.COMO_AVANCAR);
                         break;
 
                     case "Tipos de celulas":
                         JOptionPane.showMessageDialog(rootPane, 
-                                MensagensAjuda.TIPOS_CELULAS);
+                                Mensagens.TIPOS_CELULAS);
                         break;
                         
                     case "Formato do arquivo":
                         JOptionPane.showMessageDialog(rootPane, 
-                                MensagensAjuda.FORMATO_ARQUIVO);                              
+                                Mensagens.FORMATO_ARQUIVO);                              
                         break;
 
                     case "Sobre":
                         JOptionPane.showMessageDialog(rootPane, 
-                                MensagensAjuda.SOBRE);
+                                Mensagens.SOBRE);
                         break;
                 }
             }
@@ -304,8 +302,10 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(tabuleiro.estaVazio())
-                    JOptionPane.showMessageDialog(rootPane, msgTabuleiro, 
-                            tituloMsgTabuleiro, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, 
+                            Mensagens.TABULEIRO_INEXISTENTE.toString(), 
+                            Mensagens.TITULO_TABULEIRO_INEXISTENTE.toString(), 
+                            JOptionPane.INFORMATION_MESSAGE);
                 else {
                     avancarInteracao();
                 }
@@ -316,8 +316,10 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(tabuleiro.estaVazio())
-                    JOptionPane.showMessageDialog(rootPane, msgTabuleiro, 
-                            tituloMsgTabuleiro, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, 
+                            Mensagens.TABULEIRO_INEXISTENTE.toString(), 
+                            Mensagens.TITULO_TABULEIRO_INEXISTENTE.toString(), 
+                            JOptionPane.INFORMATION_MESSAGE);
                 else {
                     painelAvancar = new PainelAvancar(MainWindow.this);
                     if(comecar) {
@@ -388,24 +390,26 @@ public class MainWindow extends JFrame {
             } catch (FileNotFoundException ex) {
                 System.out.println(ex);
                 JOptionPane.showMessageDialog(this,
-                        "Este arquivo não existe.",
-                        "Arquivo não existente.", JOptionPane.ERROR_MESSAGE);
+                        Mensagens.ARQUIVO_INEXISTENTE.toString(),
+                        Mensagens.TITULO_ARQUIVO_INEXISTENTE.toString(), 
+                        JOptionPane.ERROR_MESSAGE);
                 return false;
 
             } catch (NoSuchElementException ex) {
                 System.out.println(ex);
                 JOptionPane.showMessageDialog(this,
-                        "Este arquivo é inválido!"
-                        + "\nVá na sessão ajuda para ver sobre o formato do arquivo.",
-                        "Arquivo inválido.", JOptionPane.ERROR_MESSAGE);
+                        Mensagens.ARQUIVO_INVALIDO.toString(),
+                        Mensagens.TITULO_ARQUIVO_INVALIDO.toString(), 
+                        JOptionPane.ERROR_MESSAGE);
                 return false;
 
             }
 
         } else if (res == JFileChooser.ERROR_OPTION) {
             JOptionPane.showMessageDialog(this,
-                    "Escolha um arquivo!",
-                    "Arquivo inválido.", JOptionPane.ERROR_MESSAGE);
+                    Mensagens.ESCOLHA_ARQUIVO.toString(),
+                    Mensagens.TITULO_ESCOLHA_ARQUIVO.toString(), 
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return false;
@@ -421,15 +425,15 @@ public class MainWindow extends JFrame {
                 writer.print(tabuleiro.salvarTabuleiro());
                 
                 JOptionPane.showMessageDialog(rootPane,
-                        "Tabuleiro salvo com sucesso!",
-                        "Tabuleiro Salvo.", JOptionPane.INFORMATION_MESSAGE);
+                        Mensagens.TABULEIRO_SALVO.toString(),
+                        Mensagens.TITULO_TABULEIRO_SALVO.toString(), 
+                        JOptionPane.INFORMATION_MESSAGE);
                 
             } catch (FileNotFoundException ex) {
                 System.out.println(ex);
                 JOptionPane.showMessageDialog(rootPane,
-                        "Não foi possível salvar o tabuleiro.\n"
-                                + "Salve corretamente!",
-                        "Erro ao salvar o tabuleiro!", JOptionPane.ERROR_MESSAGE);
+                        Mensagens.ERRO_SALVAMENTO.toString(),
+                        Mensagens.TITULO_ERRO_SALVAMENTO.toString(), JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -473,8 +477,9 @@ public class MainWindow extends JFrame {
     private boolean timerIsRunning() {
         if(timer != null && timer.isRunning()){
             JOptionPane.showMessageDialog(MainWindow.this, 
-                    "Pause a interação para realizar esta ação!", 
-                    "Interação rodando", JOptionPane.INFORMATION_MESSAGE);
+                    Mensagens.INTERACAO_RODANDO.toString(), 
+                    Mensagens.TITULO_INTERACAO_RODANDO.toString(), 
+                    JOptionPane.INFORMATION_MESSAGE);
             return true;
         }
         return false;

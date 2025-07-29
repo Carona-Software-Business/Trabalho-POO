@@ -1,16 +1,70 @@
-package jv.kauan.trabalho_1_01.interfaces;
+package jv.kauan.trabalho_2_01;
 
-public class MensagensAjuda {
+public enum Mensagens {
+    TITULO_SALVAR_TABULEIRO(-1), SALVAR_TABULEIRO(1),
+    TITULO_TABULEIRO_INEXISTENTE(-2), TABULEIRO_INEXISTENTE(2), 
+    TITULO_ARQUIVO_INEXISTENTE(-3), ARQUIVO_INEXISTENTE(3),
+    TITULO_ARQUIVO_INVALIDO(-4), ARQUIVO_INVALIDO(4),
+    TITULO_ESCOLHA_ARQUIVO(-5), ESCOLHA_ARQUIVO(5),
+    TITULO_TABULEIRO_SALVO(-6), TABULEIRO_SALVO(6),
+    TITULO_ERRO_SALVAMENTO(-7), ERRO_SALVAMENTO(7),
+    TITULO_INTERACAO_RODANDO(-8), INTERACAO_RODANDO(8),
+    COMO_ABRIR(9), COMO_SALVAR(10), COMO_EDITAR(11), COMO_AVANCAR(12), TIPOS_CELULAS(13),
+    FORMATO_ARQUIVO(14), SOBRE(15);
+    
+    private int id;
+    private String mensagem;
 
-    public static final String COMO_ABRIR = "📁 Como abrir um arquivo:\n"
+    private Mensagens(int id) {
+        this.mensagem = definirMsg(id);
+    }
+    
+    private String definirMsg(int id) {
+        if(id == -1) {
+            return "Salve o tabuleiro";
+        } else if(id == -2) {
+            return "Abra um tabuleiro.";
+        } else if(id == -3) {
+            return "Este arquivo não existe.";
+        } else if(id == -4) {
+            return "Este arquivo é inválido!";
+        } else if(id == -5) {
+            return "Escolha um arquivo!";
+        } else if(id == -6) {
+            return "Tabuleiro salvo com sucesso!";
+        } else if(id == -7) {
+            return "Erro ao salvar o tabuleiro!";
+        } else if(id == -8) {
+            return "Interação rodando";
+        } else if(id == 1) {
+            return "Salve o tabuleiro para não perder o progresso!";
+        } else if(id == 2) {
+            return "Não há nenhum tabuleiro no momento!"
+                    + "\nAbra um tabuleiro!";
+        } else if(id == 3) {
+            return "Arquivo não existente.";
+        } else if(id == 4) {
+            return "Este arquivo é inválido!"
+                        + "\nVá na sessão ajuda para ver sobre o formato do arquivo.";
+        } else if(id == 5) {
+            return "Escolha um arquivo para poder interagir.";
+        } else if(id == 6) {
+            return "Tabuleiro salvo com sucesso!";
+        } else if(id == 7) {
+            return "Não foi possível salvar o tabuleiro.\n"
+                                + "Salve corretamente!";
+        } else if(id == 8) {
+            return "Pause a interação para realizar esta ação!";
+        } else if(id == 9) {
+            return "📁 Como abrir um arquivo:\n"
         + "◦Para abrir um arquivo salvo anteriormente, siga os passos abaixo:\n\n"
         + "1 - Clique no menu Arquivo, localizado no canto superior esquerdo da tela.\n\n"
         + "2 - Selecione a opção Abrir.\n\n"
         + "3 - Na janela que será exibida, escolha o arquivo desejado no seu computador.\n\n"
         + "4 - Clique em Abrir para carregar o conteúdo no programa.\n\n"
         + "*Certifique-se de que o arquivo esteja no formato compatível com o sistema.";
-
-    public static final String COMO_SALVAR = "💾  Como salvar um tabuleiro:\n"
+        } else if(id == 10) {
+            return "💾  Como salvar um tabuleiro:\n"
         + "◦Para salvar o tabuleiro atual, siga os passos:\n\n"
         + "1 - Com o tabuleiro carregado ou editado na tela, vá até o menu Arquivo, no canto superior esquerdo.\n\n"
         + "2 - Clique na opção Salvar.\n\n"
@@ -19,8 +73,8 @@ public class MensagensAjuda {
         + "    Digite o nome do arquivo.\n\n"
         + "4 - Após definir o local e o nome, clique em Salvar.\n\n"
         + "* O tabuleiro será gravado no local escolhido com as configurações atuais.";
-
-    public static final String COMO_EDITAR = "✏️ Como editar o tabuleiro:\n"
+        } else if(id == 11) {
+            return "✏️ Como editar o tabuleiro:\n"
         + "◦Para editar uma célula do tabuleiro, siga os passos abaixo:\n\n"
         + "1 - Vá até o menu Arquivo, no canto superior esquerdo da tela.\n\n"
         + "2 - Clique na opção Editar.\n\n"
@@ -32,8 +86,8 @@ public class MensagensAjuda {
         + "6 - Após fazer as alterações, clique em Salvar na janela de edição.\n\n"
         + "*A célula será atualizada com as novas configurações.\n\n"
         + "Atenção: o tabuleiro só será alterado se você clicar no botão Salvar.";
-
-    public static final String COMO_AVANCAR = "⏭️ Como avançar o tabuleiro:\n"
+        } else if(id == 12) {
+            return "⏭️ Como avançar o tabuleiro:\n"
         + "O sistema oferece duas formas de avançar as interações do tabuleiro:\n\n"
         + "🔹 Avançar manualmente:\n"
         + "1 - Na tela principal, clique no botão Avançar.\n\n"
@@ -49,8 +103,8 @@ public class MensagensAjuda {
         + "⚠️ Observações:\n"
         + "◦Enquanto as interações automáticas estiverem em andamento, o tabuleiro será atualizado a cada intervalo de tempo definido.\n\n"
         + "◦Você pode interromper a execução precionando o botão de pausar.";
-
-    public static final String TIPOS_CELULAS = "◦ Célula clássica: se comporta de maneira idêntica às células do jogo da vida original.\n"
+        } else if(id == 13) {
+            return "◦ Célula clássica: se comporta de maneira idêntica às células do jogo da vida original.\n"
         + "– Toda célula morta com exatamente três vizinhos vivos torna-se viva.\n"
         + "– Toda célula viva com menos de dois vizinhos vivos morre por isolamento.\n"
         + "– Toda célula viva com mais de três vizinhos vivos morre por superpopulação.\n"
@@ -71,12 +125,21 @@ public class MensagensAjuda {
         + "*Quando viva, seu símbolo deve ser o caractere “#”.\n\n"
         + "◦ Célula de borda: sempre está morta, nunca viva.\n"
         + "*Toda célula morta (não importando seu tipo) é representada pelo caractere “.”.";
+        } else if(id == 14) {
+            return "◦O arquivo deve estar escrito desta maneira: \n"
+                    + "- Tamanho do tabuleiro (x,y).\nex: 2 2 criará um tabuleiro 2 por 2.\n\n"
+                    + "- Tipos das celulas (+, @, &, #)."
+                    + "\nex: + + + + definirá as celulas do tabuleiro 2 por 2 como clássicas.\n\n"
+                    + "- Estado das celulas (0/1)(0= morta 1= viva)."
+                    + "\nex: 1 1 1 1 definirá as celulas do tabuleiro 2 por 2 como vivas.";
+        } else {
+            return "Interface para o Jogo da Vida."
+                    + "\nFeito por João Vitor e Kauan.";
+        }
+    }
 
-    public static final String FORMATO_ARQUIVO = "◦O arquivo deve estar escrito desta maneira: \n"
-        + "- Tamanho do tabuleiro (x,y).\nex: 2 2 criará um tabuleiro 2 por 2.\n\n"
-        + "- Tipos das celulas (+, @, &, #).\nex: + + + + definirá as celulas do tabuleiro 2 por 2 como clássicas.\n\n"
-        + "- Estado das celulas (0/1)(0= morta 1= viva).\nex: 1 1 1 1 definirá as celulas do tabuleiro 2 por 2 como vivas.";
-
-    public static final String SOBRE = "Interface para o Jogo da Vida.\nFeito por João Vitor e Kauan.";
-
+    @Override
+    public String toString() {
+        return mensagem;
+    }
 }
