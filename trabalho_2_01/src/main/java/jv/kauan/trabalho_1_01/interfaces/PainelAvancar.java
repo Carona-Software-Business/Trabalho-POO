@@ -78,6 +78,7 @@ public class PainelAvancar extends JDialog{
         botaoCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                pai.setComecar(false);
                 dispose();
             }
         });

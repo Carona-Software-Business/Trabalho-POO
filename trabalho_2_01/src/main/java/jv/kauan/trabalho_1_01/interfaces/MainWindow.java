@@ -392,14 +392,14 @@ public class MainWindow extends JFrame {
                         "Arquivo não existente.", JOptionPane.ERROR_MESSAGE);
                 return false;
 
-            } catch (NoSuchElementException ex) {
+            } catch (RuntimeException ex) {
                 System.out.println(ex);
                 JOptionPane.showMessageDialog(this,
                         "Este arquivo é inválido!"
                         + "\nVá na sessão ajuda para ver sobre o formato do arquivo.",
                         "Arquivo inválido.", JOptionPane.ERROR_MESSAGE);
                 return false;
-
+                
             }
 
         } else if (res == JFileChooser.ERROR_OPTION) {
