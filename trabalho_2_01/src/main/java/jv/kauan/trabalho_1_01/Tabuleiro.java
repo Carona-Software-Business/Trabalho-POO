@@ -8,7 +8,6 @@ import jv.kauan.trabalho_1_01.celulas.CelulaBorda;
 import jv.kauan.trabalho_1_01.celulas.CelulaForte;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -18,16 +17,22 @@ public class Tabuleiro {
     
     Celula[][] tabuleiroAtual;
     Celula[][] tabuleiroProximo;
+    Celula[][] tabuleiroEdicao;
     
     private int interacao;
     
     // Construtores
-    public Tabuleiro(int linhas, int colunas, String tipos[][], int[][] estados) {
+    public Tabuleiro() {
+        tabuleiroAtual = null;
+        tabuleiroProximo = null;
+    }
+    
+    public Tabuleiro(int linhas, int colunas, 
+            String tipos[][], int[][] estados) {
         this.linhas = linhas + 2;
         this.colunas = colunas + 2;
         
         tabuleiroAtual = new Celula[this.linhas][this.colunas];
-        tabuleiroProximo = new Celula[this.linhas][this.colunas];
         definirTiposCelulas(tipos);
         definirEstadosCelulas(estados);
         
@@ -59,10 +64,41 @@ public class Tabuleiro {
         definirEstadosCelulas(estados);
         
         tabuleiroProximo = copiarTabuleiro(tabuleiroAtual);
+        tabuleiroEdicao = copiarTabuleiro(tabuleiroAtual);
         
-        printarTabuleiro();
+        //printarTabuleiro();
         
         interacao = 0;
+    }
+    
+    // Getters Settes
+
+    public int getLinhas() {
+        return linhas;
+    }
+
+    public int getColunas() {
+        return colunas;
+    }
+    
+    public String getSimbolo(int linha, int coluna){
+        return tabuleiroAtual[linha][coluna].getSimbolo();
+    }
+    
+    public String getSimboloEditar(int linha, int coluna) {
+        return tabuleiroEdicao[linha][coluna].getSimbolo();
+    }
+    
+    public boolean isVivo(int linha, int coluna){
+        return tabuleiroAtual[linha][coluna].isVivo();
+    }
+    
+    public boolean isVivoEditar(int linha, int coluna){
+        return tabuleiroEdicao[linha][coluna].isVivo();
+    }
+
+    public int getInteracao() {
+        return interacao;
     }
     
     // Construção do tabuleiro
@@ -90,7 +126,7 @@ public class Tabuleiro {
                             tabuleiroAtual[i][j] = new CelulaMatematica();
                             break;
                         default:
-                            System.out.println("Esse tipo nao existe!");
+                            //System.out.println("Esse tipo nao existe!");
                             tabuleiroAtual[i][j] = new CelulaClassica();
                             break;
                     }
@@ -132,26 +168,30 @@ public class Tabuleiro {
         
         tabuleiroAtual = copiarTabuleiro(tabuleiroProximo);
         tabuleiroProximo = copiarTabuleiro(tabuleiroAtual);
-    }
-    
-    public void avancarInteracao(int numeroInteracoes) {
-        for(int i = 0; i < numeroInteracoes; i++) {
-            avancarInteracao();
-        }
+        
+        //System.out.println("------------");
+        //printarTabuleiro();
     }
     
     // Printar - FAZER
     @Override
     public String toString() {
         String tabuleiroString = "";
-        for(int i = 0; i < tabuleiroAtual.length; i++) {
-            for(int j = 0; j < tabuleiroAtual[0].length; j++) {
-                tabuleiroString += tabuleiroAtual[i][j].toString() + " ";
+        for(int i = 0; i < linhas; i++) {
+            for(int j = 0; j < colunas; j++) {
+                tabuleiroString += tabuleiroAtual[i][j].toString();
+                if(j != (colunas-1))
+                    tabuleiroString += " ";
             }
             tabuleiroString += "\n";
         }
         return tabuleiroString;
     }
+    
+    public String printarCelula(int linha, int coluna) {
+        return tabuleiroAtual[linha][coluna].toString();
+    }
+    
     
     public void printarTabuleiro() {
         for(int i = 0; i < linhas; i++) {
@@ -190,7 +230,7 @@ public class Tabuleiro {
         
         for(int i = 1; i < (linhas - 1); i++) {
             for(int j = 1; j < (colunas - 1); j++) {
-                if(tabuleiroAtual[i][j].getVida())
+                if(tabuleiroAtual[i][j].isVivo())
                     retorno += 1;
                 else 
                     retorno += 0;
@@ -202,6 +242,36 @@ public class Tabuleiro {
         }
         
         return retorno;
+    }
+    
+    public boolean estaVazio() {
+        return tabuleiroAtual == null ? true : false; 
+    }
+    
+    public void editarCelula(int linha, int coluna, String simbolo, boolean estado) {
+        switch (simbolo) {
+            case "+":
+                tabuleiroEdicao[linha][coluna] = new CelulaClassica();
+                break;
+            case "&":
+                tabuleiroEdicao[linha][coluna] = new CelulaTimida();
+                break;
+            case "@":
+                tabuleiroEdicao[linha][coluna] = new CelulaForte();
+                break;
+            case "#":
+                tabuleiroEdicao[linha][coluna] = new CelulaMatematica();
+                break;
+        }
+        
+        tabuleiroEdicao[linha][coluna].setVida(estado);
+    }
+    
+    public void editarTabuleiro() {
+        tabuleiroAtual = copiarTabuleiro(tabuleiroEdicao);
+        tabuleiroProximo = copiarTabuleiro(tabuleiroEdicao);
+        //System.out.println("Editado:");
+        //printarTabuleiro();
     }
     
     // Antigo
