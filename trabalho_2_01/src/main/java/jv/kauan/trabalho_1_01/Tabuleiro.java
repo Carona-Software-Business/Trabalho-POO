@@ -25,6 +25,7 @@ public class Tabuleiro {
     public Tabuleiro() {
         tabuleiroAtual = null;
         tabuleiroProximo = null;
+        tabuleiroEdicao = null;
     }
     
     public Tabuleiro(int linhas, int colunas, 
@@ -252,6 +253,10 @@ public class Tabuleiro {
     
     public boolean estaVazio() {
         return tabuleiroAtual == null ? true : false; 
+    }
+    
+    public void reiniciarTabuleiroEdicao() {
+        tabuleiroEdicao = copiarTabuleiro(tabuleiroAtual);
     }
     
     public void editarCelula(int linha, int coluna, String simbolo, boolean estado) {

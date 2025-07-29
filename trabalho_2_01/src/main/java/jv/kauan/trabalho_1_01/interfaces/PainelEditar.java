@@ -28,6 +28,9 @@ public class PainelEditar extends JDialog{
     
     public PainelEditar(MainWindow pai, Tabuleiro tabuleiro){
         super(pai, "Editar", true);
+        
+        tabuleiro.reiniciarTabuleiroEdicao();
+        
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         setSize(600, 600);
