@@ -1,6 +1,7 @@
 package jv.kauan.trabalho_1_01.interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +34,7 @@ public class PainelEditarCelula extends JDialog{
     private JButton botaoSalvar;
     private JButton botaoCancelar;
     
-    public PainelEditarCelula(JFrame pai, Tabuleiro tabuleiro, int[] pos, JButton botaoClicado){
+    public PainelEditarCelula(JFrame pai, Tabuleiro tabuleiro, int[] pos, JButton botaoClicado, JButton[][] botoesTabuleiro){
         super(pai, "Editar Celula", true);
         
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -117,7 +118,13 @@ public class PainelEditarCelula extends JDialog{
 
                 botaoClicado.setText(novoSimbolo);
                 tabuleiro.editarCelula(pos[0], pos[1], novoSimbolo, novoEstado);
-
+                
+                if(novoEstado){
+                    botaoClicado.setBackground(new Color(144, 238, 144));
+                }else{
+                    botaoClicado.setBackground(null);
+                }
+                
                 dispose();
             }
         });

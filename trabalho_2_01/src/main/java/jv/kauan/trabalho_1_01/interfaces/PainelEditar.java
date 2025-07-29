@@ -1,6 +1,7 @@
 package jv.kauan.trabalho_1_01.interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -59,7 +60,7 @@ public class PainelEditar extends JDialog{
                     pos[1] = Integer.parseInt(partes[1]);
                     
                     painelEditarCelula = new PainelEditarCelula(pai, tabuleiro, 
-                                                                pos, botaoClicado);
+                                                                pos, botaoClicado, botoesTabuleiro  );
             }
         };
         
@@ -68,6 +69,9 @@ public class PainelEditar extends JDialog{
                 botoesTabuleiro[i-1][j-1] = new JButton(tabuleiro.getSimbolo(i, j));
                 botoesTabuleiro[i-1][j-1].addActionListener(tabuleiroListener);
                 botoesTabuleiro[i-1][j-1].setName(i + " " + j);
+                if(tabuleiro.isVivo(i, j)){
+                    botoesTabuleiro[i-1][j-1].setBackground(new Color(144, 238, 144));
+                }                  
                 painelCentro.add(botoesTabuleiro[i-1][j-1]);
             }
         }
