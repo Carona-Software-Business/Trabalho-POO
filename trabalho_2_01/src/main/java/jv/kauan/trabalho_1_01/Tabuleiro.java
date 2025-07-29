@@ -41,11 +41,17 @@ public class Tabuleiro {
         interacao = 0;
     }
     
-    public Tabuleiro(File arquivo) throws FileNotFoundException, NoSuchElementException {
+    public Tabuleiro(File arquivo) throws FileNotFoundException, RuntimeException{
         Scanner scanner = new Scanner(arquivo);
         
-        linhas = scanner.nextInt() + 2;
-        colunas = scanner.nextInt() + 2;
+        linhas = scanner.nextInt();
+        colunas = scanner.nextInt();
+        
+        if(linhas <= 0 || colunas <= 0)
+            throw new RuntimeException();
+        
+        linhas += 2;
+        colunas += 2;
         
         tabuleiroAtual = new Celula[linhas][colunas];
         
