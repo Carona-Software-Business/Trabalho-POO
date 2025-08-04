@@ -1,4 +1,4 @@
-package jv.kauan.trabalho_1_01;
+package jv.kauan.trabalho_2_01;
 
 import jv.kauan.trabalho_1_01.celulas.CelulaTimida;
 import jv.kauan.trabalho_1_01.celulas.CelulaClassica;
