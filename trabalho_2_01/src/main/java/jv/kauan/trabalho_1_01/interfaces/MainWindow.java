@@ -91,7 +91,7 @@ public class MainWindow extends JFrame {
         
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 800);
+        setSize(1000, 700);
         
         painelNorte = new JPanel();
         painelNorte.setLayout(new BoxLayout(painelNorte, BoxLayout.Y_AXIS));
@@ -104,7 +104,7 @@ public class MainWindow extends JFrame {
         
         labelInteracoes = new JLabel("Interação");
         labelInteracoes.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        labelInteracoes.setBorder(new EmptyBorder(50, 0, 20, 0));
+        labelInteracoes.setBorder(new EmptyBorder(30, 0, 5, 0));
         painelNorte.add(labelInteracoes);
         
         labelJogoDaVida.setAlignmentX(CENTER_ALIGNMENT);
